@@ -1,0 +1,25 @@
+“Năm ngoái em đã đi du lịch ở một vùng núi hẻo lánh, có một chiều mưa to, em nhìn thấy một con sóc nhỏ ướt sũng, nó chạy vào trong hốc cây. Em có thể kể cho tôi cảm giác và suy nghĩ của bạn lúc đó, và nếu là bạn, bạn sẽ làm gì trong tình huống đó?”
+Câu này chứa yếu tố cảm xúc, tưởng tượng, diễn biến mở — nếu trả lời một cách “máy móc”, người ta dễ nghi là máy.
+Khi dùng cùng một câu hỏi cho ChatGPT và Bard, tôi quan sát:
+Thời gian phản hồi (nếu quá nhanh, gần như máy, nếu quá lâu có thể do hệ thống giật)
+Độ mạch lạc trong lời nói — có “vênh”, thiếu logic nhỏ không?
+Mức độ sáng tạo và cá nhân hóa (có nhấn điểm riêng, ví dụ: “Nếu là tôi, tôi sẽ … vì …”)
+Sai lầm kỳ lạ (mâu thuẫn tự thân, trả lời vòng vo, lặp từ, thiếu hiểu biết ngữ cảnh)
+
+Sau vài phút trò chuyện, nếu tôi nhận ra các đặc điểm “mẫu máy” như:
+Lồng rất nhiều dẫn chứng từ sách, hoặc trích dẫn chính xác liên tục
+Ít dùng đại từ cá nhân, ít nhấn cảm xúc chủ quan
+Khi được phản biện, “chối” hoặc “quay ngoắt” theo lối chung chung
+—> thì tôi bắt đầu nghi là máy.
+
+Thời điểm tôi “chắc chắn” nó là máy sẽ là khi nó mắc lỗi không thể giải thích được hoặc thể hiện hạn chế đặc trưng của AI (như quên ngữ cảnh, lặp ý, câu trả lời không liên quan nếu hỏi sâu hơn).
+Nếu thời gian từ lúc tôi đặt câu đến khi tôi có thể nói “đó không phải con người” là khoảng 1–2 phút (tùy độ phức tạp câu hỏi), thì tôi xem như thí nghiệm cá nhân này “thông báo được” kết quả.
+Trong thí nghiệm cá nhân, tôi thường mất khoảng 1–3 phút để nghi chắc rằng đối tượng là máy — nếu sử dụng câu hỏi phức hợp có yếu tố cảm xúc / cá nhân hóa.
+
+ChatGPT và Bard đều có khả năng tạo ra câu trả lời rất “như người” ở mức độ giao tiếp hàng ngày — nếu ta không đào sâu hoặc thử những điểm khó, rất khó phân biệt.
+Tuy nhiên, khi đưa vào các câu hỏi đòi suy luận dài, giữ logic xuyên suốt qua nhiều lượt hỏi, hoặc truy vấn kiến thức mới không trong dữ liệu huấn luyện, thì cả hai thường lộ ra điểm yếu (mâu thuẫn, quên ngữ cảnh, “nói chung chung”).
+Tôi nghi rằng hiện tại chưa có hệ thống AI nào “vượt qua Turing test” theo nghĩa toàn diện, vì:
+Thử nghiệm Turing vốn có nhiều biến thể — cách đặt câu hỏi, thời gian, số lượt hỏi, cách chọn người đánh giá — ảnh hưởng lớn kết quả.
+“Qua Turing test” không đồng nghĩa với “trí tuệ thật” — AI có thể rất giỏi giả lập ngôn ngữ mà không có hiểu biết sâu, không có kinh nghiệm thế giới thực.
+Một số bài báo mới (như Jones & Bergen 2025) báo cáo kết quả “vượt” trong trường hợp thiết lập đặc biệt, nhưng cần được tái kiểm tra và mở rộng hơn
+Vậy nên, về câu “các hệ thống này có qua Turing test không?” — câu trả lời hợp lý là: có những thử nghiệm mà AI vượt được, nhưng không chắc đã là bằng chứng phổ quát.
