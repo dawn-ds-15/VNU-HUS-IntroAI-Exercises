@@ -1,0 +1,150 @@
+#with the help of chat gpt
+#!/usr/bin/env python3
+"""
+Theorem prover (truth-table) cho công thức CNF.
+Representation:
+- literal: string, ví dụ "A", "-A", "~A", "!A", "¬A"
+- clause: iterable of literals (list/tuple/set)
+- formula (CNF): iterable of clauses (list/tuple/set)
+Output:
+- unsatisfiable / satisfiable / true
+- number of interpretations (2^n) and number of models (satisfying assignments)
+"""
+
+from itertools import product
+import re
+from typing import List, Set, Tuple, Dict, Iterable
+
+# -------- helper functions --------
+
+def normalize_literal(lit: str) -> Tuple[str, bool]:
+    """
+    Trả về (variable, is_positive).
+    Hỗ trợ tiền tố phủ định: '-', '~', '!', '¬'
+    Ví dụ:
+      "A" -> ("A", True)
+      "-A" -> ("A", False)
+      "~foo" -> ("foo", False)
+    """
+    if not isinstance(lit, str):
+        raise ValueError("Literal must be a string")
+    lit = lit.strip()
+    if lit == "":
+        raise ValueError("Empty literal")
+    # tìm tiền tố phủ định
+    if lit[0] in ('-', '~', '!', '¬'):
+        return lit[1:].strip(), False
+    # cũng có trường hợp dấu phủ định cuối? (ít gặp) -- không xử lý
+    return lit, True
+
+def collect_variables(cnf: Iterable[Iterable[str]]) -> List[str]:
+    """Thu thập danh sách biến không trùng (sắp xếp để kết quả lặp ổn định)."""
+    vars_set = set()
+    for clause in cnf:
+        for lit in clause:
+            var, _ = normalize_literal(lit)
+            vars_set.add(var)
+    vars_list = sorted(vars_set)
+    return vars_list
+
+def eval_literal_on_assignment(lit: str, assignment: Dict[str, bool]) -> bool:
+    """Đánh giá literal theo gán assignment (dict var -> bool)."""
+    var, pos = normalize_literal(lit)
+    if var not in assignment:
+        raise KeyError(f"Variable {var} missing in assignment")
+    return assignment[var] if pos else (not assignment[var])
+
+def eval_clause(clause: Iterable[str], assignment: Dict[str, bool]) -> bool:
+    """Clause (OR of literals) đúng nếu ít nhất một literal đúng."""
+    for lit in clause:
+        if eval_literal_on_assignment(lit, assignment):
+            return True
+    return False
+
+def eval_cnf(cnf: Iterable[Iterable[str]], assignment: Dict[str, bool]) -> bool:
+    """CNF (AND of clauses) đúng nếu mọi clause đúng."""
+    for clause in cnf:
+        if not eval_clause(clause, assignment):
+            return False
+    return True
+
+# -------- main solver --------
+
+def truth_table_cnf_solver(cnf: Iterable[Iterable[str]], 
+                           list_models: bool=False,
+                           max_list_to_show: int = 1000):
+    """
+    Nhận CNF, duyệt bảng chân trị, trả về dict:
+    {
+      'variables': [...],
+      'num_interpretations': 2**n,
+      'num_models': k,
+      'models': [assignment dicts] (nếu list_models True, và k <= max_list_to_show)
+      'status': 'unsatisfiable'|'satisfiable'|'true'
+    }
+    """
+    vars_list = collect_variables(cnf)
+    n = len(vars_list)
+    num_interpretations = 1 << n  # 2^n
+
+    models = []
+    num_models = 0
+
+    # iterate over all 2^n assignments
+    for bits in product([False, True], repeat=n):
+        assignment = {var: val for var, val in zip(vars_list, bits)}
+        if eval_cnf(cnf, assignment):
+            num_models += 1
+            if list_models and num_models <= max_list_to_show:
+                models.append(dict(assignment))
+            # nếu quá nhiều models và không muốn liệt kê, chỉ đếm
+    # xác định trạng thái
+    if num_models == 0:
+        status = 'unsatisfiable'
+    elif num_models == num_interpretations:
+        status = 'true'
+    else:
+        status = 'satisfiable'
+
+    result = {
+        'variables': vars_list,
+        'num_interpretations': num_interpretations,
+        'num_models': num_models,
+        'models': models,
+        'status': status
+    }
+    return result
+
+# -------- ví dụ (test) --------
+
+if __name__ == "__main__":
+    # Một vài CNF ví dụ:
+    # 1) Unsatisfiable: (A) & (~A)
+    cnf_unsat = [["A"], ["-A"]]
+
+    # 2) Satisfiable but not tautology: (A or B) & (A or ~B)
+    cnf_sat = [["A", "B"], ["A", "-B"]]
+
+    # 3) Tautology (always true): (A or ~A)  (một clause duy nhất là tautology)
+    cnf_taut = [["A", "-A"]]
+
+    examples = [
+        ("Unsatisfiable example", cnf_unsat),
+        ("Satisfiable example", cnf_sat),
+        ("Tautology example", cnf_taut)
+    ]
+
+    for title, cnf in examples:
+        print("===")
+        print(title)
+        print("CNF:", cnf)
+        res = truth_table_cnf_solver(cnf, list_models=True, max_list_to_show=20)
+        print("Variables:", res['variables'])
+        print("Number of interpretations (2^n):", res['num_interpretations'])
+        print("Number of models:", res['num_models'])
+        print("Status:", res['status'])
+        if res['models']:
+            print("Example models (up to shown limit):")
+            for m in res['models']:
+                print(" ", m)
+        print()
