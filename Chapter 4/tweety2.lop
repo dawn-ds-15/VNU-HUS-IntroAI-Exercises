@@ -1,1 +1,7 @@
-% Create a solution for Exercise 4.3, page 73
+
+% Tweety2: Contradiction between bird rule and penguin rule
+fof(birds_fly, axiom, ![X] : (bird(X) => fly(X))).
+fof(penguins_not_fly, axiom, ![X] : (penguin(X) => ~fly(X))).
+fof(penguin_is_bird, axiom, ![X] : (penguin(X) => bird(X))).
+fof(tweety_is_penguin, axiom, penguin(tweety)).
+fof(conj_not_fly, conjecture, ~fly(tweety)).
