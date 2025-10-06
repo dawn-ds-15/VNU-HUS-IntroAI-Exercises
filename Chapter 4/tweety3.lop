@@ -1,1 +1,7 @@
-% Create a solution for Exercise 4.3, page 73
+
+% Tweety3: Default reasoning with abnormality predicate
+fof(default_bird_rule, axiom, ![X] : (bird(X) & ~ab(X) => fly(X))).
+fof(penguin_abnormal, axiom, ![X] : (penguin(X) => ab(X))).
+fof(penguin_is_bird, axiom, ![X] : (penguin(X) => bird(X))).
+fof(tweety_penguin, axiom, penguin(tweety)).
+fof(conj_not_fly, conjecture, ~fly(tweety)).
