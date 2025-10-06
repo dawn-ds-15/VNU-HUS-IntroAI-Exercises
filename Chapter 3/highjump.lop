@@ -1,1 +1,7 @@
-% Create a solution for Exercise 3.9(a), page 64
+% i committed before but when i check chapter4 i see this, so i commit one more time
+a;b<-.
+<-a,b.
+b;c<-.
+<-b,c.
+c;a<-.
+<-c,a.
