@@ -1,1 +1,5 @@
-% Create a solution for Exercise 4.3, page 73
+% All bird can fly no exceptions 
+% Tweety1: Simple classical logic (no exceptions)
+fof(birds_fly, axiom, ![X] : (bird(X) => fly(X))).
+fof(tweety_is_bird, axiom, bird(tweety)).
+fof(conj_fly, conjecture, fly(tweety)).
