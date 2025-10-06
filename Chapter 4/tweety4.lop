@@ -1,1 +1,6 @@
-% Create a solution for Exercise 4.3, page 73
+% Tweety4: Prioritized defaults
+fof(default_bird, axiom, ![X] : (bird(X) => fly(X))).
+fof(exception_penguin, axiom, ![X] : (penguin(X) => bird(X) & ~fly(X))).
+fof(tweety_penguin, axiom, penguin(tweety)).
+fof(conj_not_fly, conjecture, ~fly(tweety)).
+
