@@ -1,0 +1,94 @@
+from collections import deque
+
+# Moves: up, down, left, right
+moves = {
+    'U': -3,  # Move blank up (index - 3)
+    'D': 3,   # Move blank down (index + 3)
+    'L': -1,  # Move blank left (index - 1)
+    'R': 1    # Move blank right (index + 1)
+}
+
+goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+
+def get_neighbors(state):
+    neighbors = []
+    i = state.index(0)
+    row, col = divmod(i, 3)
+
+    for move, delta in moves.items():
+        new_i = i + delta
+        # Check board boundaries
+        if move == 'L' and col == 0: continue
+        if move == 'R' and col == 2: continue
+        if move == 'U' and row == 0: continue
+        if move == 'D' and row == 2: continue
+        new_state = list(state)
+        new_state[i], new_state[new_i] = new_state[new_i], new_state[i]
+        neighbors.append(tuple(new_state))
+    return neighbors
+
+
+# ---------------- BFS ----------------
+def bfs(start):
+    queue = deque([(start, [])])
+    visited = {start}
+    while queue:
+        state, path = queue.popleft()
+        if state == goal:
+            return path
+        for neighbor in get_neighbors(state):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    return None
+
+
+# ---------------- DFS ----------------
+def dfs(start, limit=10000):
+    stack = [(start, [])]
+    visited = set()
+    while stack:
+        state, path = stack.pop()
+        if state == goal:
+            return path
+        if len(path) > limit:  # avoid infinite recursion
+            continue
+        if state not in visited:
+            visited.add(state)
+            for neighbor in get_neighbors(state):
+                stack.append((neighbor, path + [neighbor]))
+    return None
+
+
+# ---------------- Iterative Deepening ----------------
+def dls(state, depth, path, visited):
+    if state == goal:
+        return path
+    if depth == 0:
+        return None
+    visited.add(state)
+    for neighbor in get_neighbors(state):
+        if neighbor not in visited:
+            result = dls(neighbor, depth - 1, path + [neighbor], visited)
+            if result is not None:
+                return result
+    return None
+
+def iterative_deepening(start, max_depth=30):
+    for depth in range(max_depth):
+        visited = set()
+        result = dls(start, depth, [], visited)
+        if result is not None:
+            return result
+    return None
+
+
+# ---------------- Example Run ----------------
+if __name__ == "__main__":
+    start = (1, 2, 3,
+             4, 0, 6,
+             7, 5, 8)
+
+    print("BFS:", len(bfs(start)), "moves")
+    print("DFS:", len(dfs(start)), "moves")
+    print("IDS:", len(iterative_deepening(start)), "moves")
