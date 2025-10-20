@@ -92,3 +92,10 @@ if __name__ == "__main__":
     print("BFS:", len(bfs(start)), "moves")
     print("DFS:", len(dfs(start)), "moves")
     print("IDS:", len(iterative_deepening(start)), "moves")
+'''
+b
+Depth-first search is unsuitable for the 8-puzzle because it explores deeply into the search tree 
+without guaranteeing a solution — or may find one that’s far from optimal. 
+The puzzle’s solution paths are relatively shallow, so breadth-first or iterative deepening 
+are far more efficient and logical choices.
+'''
