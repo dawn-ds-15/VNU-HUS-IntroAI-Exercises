@@ -1,0 +1,86 @@
+import heapq
+
+goal = (1, 2, 3,
+        4, 5, 6,
+        7, 8, 0)
+
+# Moves: up, down, left, right
+moves = {
+    'U': -3,
+    'D': 3,
+    'L': -1,
+    'R': 1
+}
+
+def get_neighbors(state):
+    neighbors = []
+    i = state.index(0)
+    row, col = divmod(i, 3)
+
+    for move, delta in moves.items():
+        new_i = i + delta
+        if move == 'L' and col == 0: continue
+        if move == 'R' and col == 2: continue
+        if move == 'U' and row == 0: continue
+        if move == 'D' and row == 2: continue
+        new_state = list(state)
+        new_state[i], new_state[new_i] = new_state[new_i], new_state[i]
+        neighbors.append(tuple(new_state))
+    return neighbors
+
+
+# ---------- Heuristics ----------
+
+# h1: Number of misplaced tiles
+def h1(state):
+    return sum(1 for i, v in enumerate(state) if v != 0 and v != goal[i])
+
+# h2: Manhattan distance
+def h2(state):
+    dist = 0
+    for i, v in enumerate(state):
+        if v == 0:
+            continue
+        goal_i = goal.index(v)
+        row1, col1 = divmod(i, 3)
+        row2, col2 = divmod(goal_i, 3)
+        dist += abs(row1 - row2) + abs(col1 - col2)
+    return dist
+
+
+# ---------- A* Search ----------
+
+def astar(start, heuristic):
+    frontier = []
+    heapq.heappush(frontier, (heuristic(start), 0, start, []))
+    visited = set()
+
+    while frontier:
+        f, g, state, path = heapq.heappop(frontier)
+        if state == goal:
+            return path
+        if state in visited:
+            continue
+        visited.add(state)
+
+        for neighbor in get_neighbors(state):
+            if neighbor not in visited:
+                new_g = g + 1
+                new_f = new_g + heuristic(neighbor)
+                heapq.heappush(frontier, (new_f, new_g, neighbor, path + [neighbor]))
+    return None
+
+
+# ---------- Example Run ----------
+if __name__ == "__main__":
+    start = (1, 2, 3,
+             4, 0, 6,
+             7, 5, 8)
+
+    print("A* using h1 (misplaced tiles):")
+    sol1 = astar(start, h1)
+    print(f"Moves: {len(sol1)}")
+
+    print("\nA* using h2 (Manhattan distance):")
+    sol2 = astar(start, h2)
+    print(f"Moves: {len(sol2)}")
